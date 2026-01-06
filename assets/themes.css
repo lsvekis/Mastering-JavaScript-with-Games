@@ -1,0 +1,11 @@
+
+/* Shared themes applied per game group (body classes) */
+.theme-neon{--bg:#050712;--panel:#0b1220;--card:#121a2c;--accent:#7c3aed;--ok:#22c55e;--bad:#ef4444;--muted:#a3a3a3}
+.theme-retro{--bg:#1b1a17;--panel:#26211b;--card:#332b21;--accent:#f59e0b;--ok:#34d399;--bad:#fb7185;--muted:#c4b5a5}
+.theme-minimal{--bg:#0b0f19;--panel:#101827;--card:#0f172a;--accent:#38bdf8;--ok:#10b981;--bad:#f97316;--muted:#94a3b8}
+.theme-arcade{--bg:#071a13;--panel:#0b2a1f;--card:#0f3b2a;--accent:#22c55e;--ok:#a3e635;--bad:#f43f5e;--muted:#a7f3d0}
+.theme-sunset{--bg:#140b1f;--panel:#1f1030;--card:#2a1442;--accent:#fb7185;--ok:#fbbf24;--bad:#60a5fa;--muted:#c4b5fd}
+
+.reduce-motion *, .reduce-motion *::before, .reduce-motion *::after{animation:none !important; transition:none !important; scroll-behavior:auto !important;}
+.high-contrast{--bg:#000;--panel:#000;--card:#000;--accent:#fff;--ok:#0f0;--bad:#f00;--muted:#fff}
+.big-text{font-size:18px}

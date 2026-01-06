@@ -1,0 +1,16 @@
+
+/* Game shell UI injected into each game */
+.vl-shell{position:sticky;top:0;z-index:9999;background:rgba(0,0,0,.55);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.12)}
+.vl-shell-inner{max-width:980px;margin:0 auto;padding:14px 16px;display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap}
+.vl-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);font-weight:700}
+.vl-title{font-size:18px;margin:0;letter-spacing:.2px}
+.vl-meta{display:flex;flex-direction:column;gap:8px;min-width:260px;flex:1}
+.vl-box{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:10px 12px}
+.vl-box h3{margin:0 0 6px;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.75)}
+.vl-box p{margin:0;color:rgba(255,255,255,.92);line-height:1.35}
+.vl-variants{display:flex;gap:10px;flex-wrap:wrap}
+.vl-toggle{display:inline-flex;align-items:center;gap:8px;padding:8px 10px;border-radius:12px;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.14);cursor:pointer;user-select:none}
+.vl-toggle input{accent-color:var(--accent)}
+.vl-links{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.vl-links a{color:inherit;text-decoration:none;border-bottom:1px dashed rgba(255,255,255,.35)}
+.vl-links a:hover{border-bottom-color:rgba(255,255,255,.8)}

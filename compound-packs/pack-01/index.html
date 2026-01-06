@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Compound Pack 01: Games 001–004</title>
+<link rel="stylesheet" href="../../assets/themes.css">
+<style>
+  :root{--bg:#0f172a;--panel:#111827;--card:#1f2937;--accent:#60a5fa;--muted:#9ca3af}
+  body{margin:0;background:var(--bg);color:#e5e7eb;font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Arial}
+  header{padding:18px 16px;border-bottom:1px solid rgba(255,255,255,.12);background:rgba(0,0,0,.35);backdrop-filter:blur(10px)}
+  h1{margin:0 0 6px;font-size:18px}
+  p{margin:0;color:rgba(255,255,255,.85)}
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+  .tab{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);color:inherit;padding:8px 10px;border-radius:12px;cursor:pointer;font-weight:700}
+  .tab.active{border-color:rgba(255,255,255,.35);outline:2px solid rgba(96,165,250,.35)}
+  .wrap{height:calc(100vh - 122px)}
+  iframe{width:100%;height:100%;border:0;background:#000}
+  .nav{margin-top:10px;display:flex;gap:10px;flex-wrap:wrap}
+  a{color:inherit;text-decoration:none;border-bottom:1px dashed rgba(255,255,255,.35)}
+</style>
+</head>
+<body class="theme-neon">
+<header>
+  <h1>Compound Pack 01: Games 001–004</h1>
+  <p>These are “mini-games merged into a compound pack” so learners can feel progression without leaving the page. Use the tabs to switch games.</p>
+  <div class="tabs" id="tabs"><button class="tab" data-src="../../games/game-001/index.html">Game 001</button><button class="tab" data-src="../../games/game-002/index.html">Game 002</button><button class="tab" data-src="../../games/game-003/index.html">Game 003</button><button class="tab" data-src="../../games/game-004/index.html">Game 004</button></div>
+  <div class="nav"><a href="../../index.html">← Back to all games</a></div>
+</header>
+<div class="wrap">
+  <iframe id="frame" src="../../games/game-001/index.html" title="Game iframe"></iframe>
+</div>
+<script>
+  const tabs=[...document.querySelectorAll('.tab')];
+  const frame=document.getElementById('frame');
+  function setActive(btn){
+    tabs.forEach(t=>t.classList.toggle('active', t===btn));
+    frame.src=btn.dataset.src;
+  }
+  tabs.forEach(t=>t.addEventListener('click',()=>setActive(t)));
+  setActive(tabs[0]);
+</script>
+</body>
+</html>
