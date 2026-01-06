@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+<link rel="stylesheet" href="../../assets/themes.css">
+<link rel="stylesheet" href="../../assets/shell.css">
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Game 044 — Mini Puzzle 19</title>
+<style>
+:root{--bg:#0f172a;--panel:#111827;--card:#1f2937;--text:#e5e7eb;--muted:#94a3b8;--accent:#60a5fa;--good:#10b981;--bad:#ef4444}
+*{box-sizing:border-box}
+body{margin:0;background:linear-gradient(180deg,var(--bg),#020617);color:var(--text);font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Arial}
+header{padding:18px 16px;border-bottom:1px solid rgba(255,255,255,.08);background:rgba(17,24,39,.6);backdrop-filter: blur(6px)}
+h1{margin:0;font-size:18px;letter-spacing:.3px}
+p{margin:8px 0 0;color:var(--muted)}
+main{padding:16px;max-width:980px;margin:0 auto}
+.card{background:rgba(31,41,55,.75);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:14px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+button,input,select{font:inherit}
+button{background:var(--accent);border:0;color:#081225;padding:10px 12px;border-radius:12px;cursor:pointer;font-weight:700}
+button.secondary{background:transparent;border:1px solid rgba(255,255,255,.16);color:var(--text)}
+.badge{display:inline-flex;align-items:center;gap:8px;color:var(--muted);font-size:12px}
+.kbd{border:1px solid rgba(255,255,255,.2);padding:2px 8px;border-radius:8px;background:rgba(2,6,23,.5)}
+.grid{display:grid;gap:10px}
+@media (min-width:780px){.grid{grid-template-columns:1.2fr .8fr}}
+
+</style>
+</head>
+<body>
+<header>
+  <h1>Game 044 — Mini Puzzle 19</h1>
+  <p>Solve a tiny logic puzzle: toggle all lights off.</p>
+</header>
+<main class="grid">
+  <section class="card">
+    
+<div class="row"><button id="new">New</button><div class="badge">Moves: <span id="moves">0</span></div></div>
+<div id="grid" style="margin-top:14px;display:grid;grid-template-columns:repeat(5,54px);gap:8px"></div>
+<p style="color:var(--muted)">Click a cell to toggle it and its neighbors.</p>
+
+  </section>
+  <aside class="card">
+    <div class="badge"><span class="kbd">Tip</span><span>Open DevTools Console to see logs.</span></div>
+    <hr style="border:0;border-top:1px solid rgba(255,255,255,.08);margin:12px 0"/>
+    <div id="stats" class="row" style="gap:10px"></div>
+    <p style="margin-top:10px" id="how"></p>
+  </aside>
+</main>
+<script>
+console.log("Game 044 — Mini Puzzle 19 loaded");
+// Game variation seed: 44
+
+const $=s=>document.querySelector(s);
+const grid=$("#grid"), movesEl=$("#moves"), stats=$("#stats"), how=$("#how");
+how.textContent="Classic Lights Out: click toggles neighbors.";
+stats.innerHTML='<span class="badge">Win: <span id="wins">0</span></span>';
+let state=[], moves=0, wins=0;
+function idx(r,c){return r*5+c;}
+function toggle(r,c){ if(r<0||c<0||r>4||c>4) return; const k=idx(r,c); state[k]=!state[k]; }
+function render(){
+  grid.innerHTML="";
+  for(let r=0;r<5;r++)for(let c=0;c<5;c++){
+    const k=idx(r,c);
+    const b=document.createElement("button");
+    b.className="secondary"; b.style.width="54px"; b.style.height="54px"; b.style.borderRadius="14px";
+    b.style.background=state[k]?"rgba(96,165,250,.25)":"rgba(2,6,23,.25)";
+    b.addEventListener("click",()=>{
+      moves++; movesEl.textContent=moves;
+      toggle(r,c); toggle(r-1,c); toggle(r+1,c); toggle(r,c-1); toggle(r,c+1);
+      render();
+      if(state.every(v=>!v)){wins++; $("#wins").textContent=wins;}
+    });
+    grid.appendChild(b);
+  }
+}
+function newGame(){ moves=0; movesEl.textContent=moves; state=Array.from({length:25},()=>Math.random()<0.45); render(); }
+$("#new").addEventListener("click",newGame);
+newGame();
+
+</script>
+
+<script type="application/json" id="game-meta">{"number": "044", "title": "Game 044 — Mini Puzzle 19", "concept": "Functions + Refactor", "whatsDifferent": "Same core pattern as the last game, but with a new rule or constraint to strengthen the skill.", "challengeVariants": ["Add a hard mode", "Add scoring", "Add a reset button"], "theme": "theme-minimal", "prev": "043", "next": "045"}</script>
+
+<script src="../../assets/shell.js"></script>
+</body>
+</html>

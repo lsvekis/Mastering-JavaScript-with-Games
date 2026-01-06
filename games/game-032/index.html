@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+<link rel="stylesheet" href="../../assets/themes.css">
+<link rel="stylesheet" href="../../assets/shell.css">
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Game 032 — Color Mixer</title>
+<style>
+:root{--bg:#0f172a;--panel:#111827;--card:#1f2937;--text:#e5e7eb;--muted:#94a3b8;--accent:#60a5fa;--good:#10b981;--bad:#ef4444}
+*{box-sizing:border-box}
+body{margin:0;background:linear-gradient(180deg,var(--bg),#020617);color:var(--text);font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Arial}
+header{padding:18px 16px;border-bottom:1px solid rgba(255,255,255,.08);background:rgba(17,24,39,.6);backdrop-filter: blur(6px)}
+h1{margin:0;font-size:18px;letter-spacing:.3px}
+p{margin:8px 0 0;color:var(--muted)}
+main{padding:16px;max-width:980px;margin:0 auto}
+.card{background:rgba(31,41,55,.75);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:14px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+button,input,select{font:inherit}
+button{background:var(--accent);border:0;color:#081225;padding:10px 12px;border-radius:12px;cursor:pointer;font-weight:700}
+button.secondary{background:transparent;border:1px solid rgba(255,255,255,.16);color:var(--text)}
+.badge{display:inline-flex;align-items:center;gap:8px;color:var(--muted);font-size:12px}
+.kbd{border:1px solid rgba(255,255,255,.2);padding:2px 8px;border-radius:8px;background:rgba(2,6,23,.5)}
+.grid{display:grid;gap:10px}
+@media (min-width:780px){.grid{grid-template-columns:1.2fr .8fr}}
+
+</style>
+</head>
+<body>
+<header>
+  <h1>Game 032 — Color Mixer</h1>
+  <p>Match the target color by adjusting RGB sliders.</p>
+</header>
+<main class="grid">
+  <section class="card">
+    
+<div class="row">
+  <button id="new">New Target</button>
+  <div class="badge">Matches: <span id="m">0</span></div>
+</div>
+<div class="row" style="margin-top:14px">
+  <div style="flex:1">
+    <div class="badge">Target</div>
+    <div id="target" style="height:120px;border-radius:16px;border:1px solid rgba(255,255,255,.1)"></div>
+  </div>
+  <div style="flex:1">
+    <div class="badge">Your Mix</div>
+    <div id="mix" style="height:120px;border-radius:16px;border:1px solid rgba(255,255,255,.1)"></div>
+  </div>
+</div>
+<div style="margin-top:14px">
+  <label>R <input type="range" id="r" min="0" max="255" value="120" style="width:100%"></label>
+  <label>G <input type="range" id="g" min="0" max="255" value="120" style="width:100%"></label>
+  <label>B <input type="range" id="b" min="0" max="255" value="120" style="width:100%"></label>
+</div>
+<p id="hint"></p>
+
+  </section>
+  <aside class="card">
+    <div class="badge"><span class="kbd">Tip</span><span>Open DevTools Console to see logs.</span></div>
+    <hr style="border:0;border-top:1px solid rgba(255,255,255,.08);margin:12px 0"/>
+    <div id="stats" class="row" style="gap:10px"></div>
+    <p style="margin-top:10px" id="how"></p>
+  </aside>
+</main>
+<script>
+console.log("Game 032 — Color Mixer loaded");
+// Game variation seed: 32
+
+const $=s=>document.querySelector(s);
+const target=$("#target"), mix=$("#mix"), hint=$("#hint"), stats=$("#stats"), how=$("#how");
+how.textContent="Learn state + UI sync by controlling RGB values.";
+stats.innerHTML='<span class="badge">Matches: <span id="best">0</span></span>';
+let tr=0,tg=0,tb=0, matches=0;
+function setMix(){
+  const r=+$("#r").value, g=+$("#g").value, b=+$("#b").value;
+  mix.style.background=`rgb(${r},${g},${b})`;
+  const d=Math.abs(r-tr)+Math.abs(g-tg)+Math.abs(b-tb);
+  hint.textContent = d<15 ? "Perfect match! 🎯 Click 'New Target'." : (d<60 ? "Very close." : (d<140 ? "Getting there." : "Far away."));
+  if(d<15){
+    matches++; $("#best").textContent=matches;
+    $("#new").disabled=false;
+  } else $("#new").disabled=true;
+}
+function newTarget(){
+  tr=(Math.random()*256)|0; tg=(Math.random()*256)|0; tb=(Math.random()*256)|0;
+  target.style.background=`rgb(${tr},${tg},${tb})`;
+  matches=0; $("#best").textContent=matches;
+  setMix();
+}
+["r","g","b"].forEach(id=>$("#"+id).addEventListener("input",setMix));
+$("#new").addEventListener("click",newTarget);
+newTarget(); setMix();
+
+</script>
+
+<script type="application/json" id="game-meta">{"number": "032", "title": "Game 032 — Color Mixer", "concept": "Grids + Boards", "whatsDifferent": "Same core pattern as the last game, but with a new rule or constraint to strengthen the skill.", "challengeVariants": ["Add a size selector (3×3, 4×4)", "Add coordinates on hover", "Add an undo button (stores previous board)"], "theme": "theme-retro", "prev": "031", "next": "033"}</script>
+
+<script src="../../assets/shell.js"></script>
+</body>
+</html>

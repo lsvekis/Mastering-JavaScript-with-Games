@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+<link rel="stylesheet" href="../../assets/themes.css">
+<link rel="stylesheet" href="../../assets/shell.css">
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Game 080 — Simon Says Mini</title>
+<style>
+:root{--bg:#0f172a;--panel:#111827;--card:#1f2937;--text:#e5e7eb;--muted:#94a3b8;--accent:#60a5fa;--good:#10b981;--bad:#ef4444}
+*{box-sizing:border-box}
+body{margin:0;background:linear-gradient(180deg,var(--bg),#020617);color:var(--text);font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Arial}
+header{padding:18px 16px;border-bottom:1px solid rgba(255,255,255,.08);background:rgba(17,24,39,.6);backdrop-filter: blur(6px)}
+h1{margin:0;font-size:18px;letter-spacing:.3px}
+p{margin:8px 0 0;color:var(--muted)}
+main{padding:16px;max-width:980px;margin:0 auto}
+.card{background:rgba(31,41,55,.75);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:14px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+button,input,select{font:inherit}
+button{background:var(--accent);border:0;color:#081225;padding:10px 12px;border-radius:12px;cursor:pointer;font-weight:700}
+button.secondary{background:transparent;border:1px solid rgba(255,255,255,.16);color:var(--text)}
+.badge{display:inline-flex;align-items:center;gap:8px;color:var(--muted);font-size:12px}
+.kbd{border:1px solid rgba(255,255,255,.2);padding:2px 8px;border-radius:8px;background:rgba(2,6,23,.5)}
+.grid{display:grid;gap:10px}
+@media (min-width:780px){.grid{grid-template-columns:1.2fr .8fr}}
+
+</style>
+</head>
+<body>
+<header>
+  <h1>Game 080 — Simon Says Mini</h1>
+  <p>Repeat the color sequence. Each round adds one more step.</p>
+</header>
+<main class="grid">
+  <section class="card">
+    
+<div class="row">
+  <button id="start">Start</button>
+  <div class="badge">Round: <span id="round">0</span></div>
+  <div class="badge">Status: <span id="status">Idle</span></div>
+</div>
+<div style="margin-top:14px;display:grid;grid-template-columns:repeat(2,1fr);gap:10px;max-width:420px">
+  <button class="pad" data-c="0" style="height:120px;border-radius:16px">A</button>
+  <button class="pad" data-c="1" style="height:120px;border-radius:16px">B</button>
+  <button class="pad" data-c="2" style="height:120px;border-radius:16px">C</button>
+  <button class="pad" data-c="3" style="height:120px;border-radius:16px">D</button>
+</div>
+
+  </section>
+  <aside class="card">
+    <div class="badge"><span class="kbd">Tip</span><span>Open DevTools Console to see logs.</span></div>
+    <hr style="border:0;border-top:1px solid rgba(255,255,255,.08);margin:12px 0"/>
+    <div id="stats" class="row" style="gap:10px"></div>
+    <p style="margin-top:10px" id="how"></p>
+  </aside>
+</main>
+<script>
+console.log("Game 080 — Simon Says Mini loaded");
+// Game variation seed: 80
+
+const $=s=>document.querySelector(s);
+const pads=[...document.querySelectorAll(".pad")];
+const start=$("#start"), roundEl=$("#round"), statusEl=$("#status"), stats=$("#stats"), how=$("#how");
+how.textContent="Watch the sequence, then click pads in the same order.";
+stats.innerHTML='<span class="badge">Best Round: <span id="best">0</span></span>';
+let seq=[], idx=0, playing=false, best=0;
+const labels=["A","B","C","D"];
+function flash(i){
+  const p=pads[i];
+  p.style.transform="scale(1.02)";
+  p.style.filter="brightness(1.4)";
+  setTimeout(()=>{p.style.transform=""; p.style.filter="";},220);
+}
+async function show(){
+  statusEl.textContent="Watch";
+  playing=false;
+  for(const i of seq){
+    flash(i);
+    await new Promise(r=>setTimeout(r,420));
+  }
+  idx=0; playing=true;
+  statusEl.textContent="Your turn";
+}
+function nextRound(){
+  seq.push((Math.random()*4)|0);
+  roundEl.textContent=seq.length;
+  if(seq.length>best){best=seq.length; $("#best").textContent=best;}
+  show();
+}
+pads.forEach(p=>{
+  p.addEventListener("click",()=>{
+    if(!playing) return;
+    const c=parseInt(p.dataset.c,10);
+    flash(c);
+    if(c!==seq[idx]){
+      statusEl.textContent="Wrong — restart";
+      seq=[]; roundEl.textContent=0; playing=false;
+      return;
+    }
+    idx++;
+    if(idx===seq.length){
+      statusEl.textContent="Nice!";
+      setTimeout(nextRound,500);
+    }
+  });
+});
+start.addEventListener("click",()=>{seq=[]; nextRound();});
+
+</script>
+
+<script type="application/json" id="game-meta">{"number": "080", "title": "Game 080 — Simon Says Mini", "concept": "Physics + Motion", "whatsDifferent": "Same core pattern as the last game, but with a new rule or constraint to strengthen the skill.", "challengeVariants": ["Add gravity on/off toggle", "Add friction tuning slider", "Add bounce or wrap-around modes"], "theme": "theme-arcade", "prev": "079", "next": "081"}</script>
+
+<script src="../../assets/shell.js"></script>
+</body>
+</html>
